@@ -30,8 +30,8 @@ def take_group_id(message):
     call.message.text == 'Нужны ли ФИЛЬТРЫ пользователей?')
 def take_filters_availability(call):
     if call.data == 'no':
-        db_bot.edit_callback_message(text='Какие ФОТОГРАФИИ брать со страниц?',
-                                     message=call.message, reply_markup=photo_selector_markup)
+        db_bot.delete_callback_message(call.message)
+        add_objects(call)
     elif call.data == 'yes':
         take_filters(call)
 
@@ -45,15 +45,7 @@ def take_sex(call):
     if not call.data == 'any':
         users_data[call.from_user.id]['filters'] = {'sex': int(call.data)}
 
-    db_bot.edit_callback_message(text='Какие ФОТОГРАФИИ брать со страниц?',
-                                 message=call.message, reply_markup=photo_selector_markup)
-
-
-@bot.callback_query_handler(func=lambda call: call.verified and
-    call.message.text == 'Какие ФОТОГРАФИИ брать со страниц?')
-def take_photo_selector(call):
     db_bot.delete_callback_message(call.message)
-    users_data[call.from_user.id]['photo_selector'] = call.data
     add_objects(call)
 
 
@@ -61,10 +53,9 @@ def add_objects(call):
     user_id = call.from_user.id
     location_id = users_data[user_id]['group_id']
     space_id = users_data[user_id]['space_id']
-    photo_selector = users_data[user_id]['photo_selector']
     filters = users_data[user_id]['filters']
 
-    objects_generator = vk_group_parser.create_objects_generator(location_id, user_id, space_id, photo_selector, filters)
+    objects_generator = vk_group_parser.create_objects_generator(location_id, user_id, space_id, filters)
     users_data[user_id]['objects_generator'] = objects_generator
     users_data[user_id]['end'] = False
 

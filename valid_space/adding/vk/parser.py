@@ -6,19 +6,17 @@ from urllib.request import urlopen as urlopen
 from urllib.parse import urlencode as urlencode
 
 from valid_space.adding.photo_iteractions import *
-from photo_selector.selector import PhotoSelector
 from config import *
 
 
 class VkParser(ABC):
     def __init__(self, token_path='valid_space/adding/vk/token.txt',
-                 photos_num=20, max_photos_num_for_selection=32, threshold_value=0.3):
+                 photos_num=20, max_photos_num_for_selection=10, threshold_value=0.3):
         with open(token_path, 'r') as file:
             self.token = file.read().strip()
             self.photos_num = photos_num
             self.max_photos_num_for_selection = max_photos_num_for_selection
 
-            self.selector = PhotoSelector()
             self.threshold_value = threshold_value
 
     @abstractmethod
@@ -41,7 +39,7 @@ class VkParser(ABC):
         else:
             return response['response']
 
-    def add_object(self, vk_object_id, user_id, space_id, description, photo_selector, filters={}):
+    def add_object(self, vk_object_id, user_id, space_id, description, filters={}):
         fields = 'photo_400_orig' + ', ' + ', '.join(list(filters.keys()))
         get_object_response = self.make_request('users.get', user_ids=vk_object_id, fields=fields)[0]
         name = f"{get_object_response['first_name']} {get_object_response['last_name']}"
@@ -63,16 +61,17 @@ class VkParser(ABC):
             else:
                 try:
                     object.save()
-                    photo_paths = self.add_object_photos(get_object_response, object, status=photo_selector)
+                    photo_paths = self.add_object_photos(get_object_response, object)
                     object.save_photos(photo_paths)
                     status = 'successfully'
 
                 except BaseException as error:
+                    print(error)
                     status = 'error'
 
         return status, object
 
-    def add_object_photos(self, get_object_response, object, status):
+    def add_object_photos(self, get_object_response, object):
         object_dir = get_object_photos_dir(object)
 
         if not get_object_response['can_access_closed']:
@@ -82,39 +81,10 @@ class VkParser(ABC):
             photo_urls = [item['sizes'][-1]['url'] for item in get_object_photos_response['items']]
             photo_urls = photo_urls[:self.max_photos_num_for_selection]
 
-        if status == 'all':
-            dir_list = self.download_photos_without_selection(photo_urls, object_dir)
-        elif status == 'with human':
-            dir_list = self.download_photos_with_selection(photo_urls, object_dir)
-        elif status == 'without human':
-            dir_list = self.download_photos_with_selection(photo_urls, object_dir, reverse=True)
-
+        dir_list = self.download_photos(photo_urls, object_dir)
         return dir_list
 
-    def download_photos_with_selection(self, photo_urls, object_dir, reverse=False):
-        dir_list = []
-        photos_list = []
-
-        for photo_url in photo_urls:
-            photo = download_photo(photo_url)
-            if photo:
-                photos_list.append(photo)
-
-        if len(photos_list) > 0:
-            predictions = self.selector.select(photos_list)
-
-            for pk in range(len(photos_list)):
-                if (predictions[pk][0] >= self.threshold_value) ^ reverse:
-                    photo_dir = f"{object_dir}/{pk}.jpeg"
-                    photos_list[pk].save(photo_dir)
-                    dir_list.append(photo_dir)
-
-                    if len(dir_list) == self.photos_num:
-                        break
-
-        return dir_list
-
-    def download_photos_without_selection(self, photo_urls, object_dir):
+    def download_photos(self, photo_urls, object_dir):
         dir_list = []
         photos_list = []
 
@@ -154,7 +124,7 @@ class VkCollectionParser(VkParser):
     def get_members(self, location_id):
         pass
 
-    def create_objects_generator(self, location_id, user_id, space_id, photo_selector, filters={}):
+    def create_objects_generator(self, location_id, user_id, space_id, filters={}):
         description, objects = self.get_members(location_id)
 
         for vk_object_id in objects:
@@ -164,7 +134,7 @@ class VkCollectionParser(VkParser):
                 break
             else:
                 time.sleep(0.5)
-                yield self.add_object(vk_object_id, user_id, space_id, description, photo_selector, filters)
+                yield self.add_object(vk_object_id, user_id, space_id, description, filters)
 
 
 class VkGroupParser(VkCollectionParser):

@@ -39,21 +39,12 @@ def take_object_description(message, vk_user_id):
         else:
             description = message.text
 
-        users_data[message.from_user.id]['description'] = description
-        db_bot.send_callback_message(message.from_user.id, 'Какие ФОТОГРАФИИ брать со страницы?',
-                                     reply_markup=photo_selector_markup,
-                                     space_id=users_data[message.from_user.id]['space_id'])
+        user_id = message.from_user.id
+        user_data = users_data[user_id]
+        vk_user_id = user_data['vk_user_id']
+        space_id = user_data['space_id']
+        status, object = vk_user_parser.add_object(vk_user_id, user_id, space_id, description)
 
-
-@bot.callback_query_handler(func=lambda call: call.message.text == 'Какие ФОТОГРАФИИ брать со страницы?')
-def take_photo_selector(call):
-    user_id = call.from_user.id
-    user_data = users_data[user_id]
-    vk_user_id = user_data['vk_user_id']
-    description = user_data['description']
-    space_id = user_data['space_id']
-    status, object = vk_user_parser.add_object(vk_user_id, user_id, space_id, description, call.data)
-
-    db_bot.delete_callback_message(call.message)
-    bot.send_message(user_id, messages_according_adding_status[status](object.name))
-    router.send_router(call, db.get_space_by_id(space_id))
+        db_bot.delete_callback_message(message)
+        bot.send_message(user_id, messages_according_adding_status[status](object.name))
+        router.send_router(message, db.get_space_by_id(space_id))
