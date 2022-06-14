@@ -1,0 +1,57 @@
+Index: valid_space/adding/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from telebot import types\n\nremove_markup = types.ReplyKeyboardRemove()\n\n\nobjects_source_keyboard = types.InlineKeyboardMarkup()\nobjects_source_keyboard_btn1 = types.InlineKeyboardButton(text='Вручную', callback_data='manually')\nobjects_source_keyboard_btn2 = types.InlineKeyboardButton(text='Страница ВК', callback_data='vk_user')\nobjects_source_keyboard_btn3 = types.InlineKeyboardButton(text='Группа ВК', callback_data='vk_group')\nobjects_source_keyboard.add(objects_source_keyboard_btn1)\nobjects_source_keyboard.add(objects_source_keyboard_btn2, objects_source_keyboard_btn3)\n\nfilters_availability_keyboard = types.InlineKeyboardMarkup()\nfilters_availability_keyboard_btn1 = types.InlineKeyboardButton(text='Да', callback_data='yes')\nfilters_availability_keyboard_btn2 = types.InlineKeyboardButton(text='Нет', callback_data='no')\nfilters_availability_keyboard.add(filters_availability_keyboard_btn1, filters_availability_keyboard_btn2)\n\nsex_keyboard = types.InlineKeyboardMarkup()\nsex_keyboard_btn1 = types.InlineKeyboardButton(text='Мужской', callback_data='2')\nsex_keyboard_btn2 = types.InlineKeyboardButton(text='Женский', callback_data='1')\nsex_keyboard_btn3 = types.InlineKeyboardButton(text='Любой', callback_data='any')\nsex_keyboard.add(sex_keyboard_btn1, sex_keyboard_btn2)\nsex_keyboard.add(sex_keyboard_btn3)\n\nno_description_markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)\nno_description_markup_btn1 = types.KeyboardButton('\uD83D\uDEAB Без описания')\nno_description_markup.add(no_description_markup_btn1)\n\nno_photo_markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)\nno_photo_markup_btn1 = types.KeyboardButton('\uD83D\uDEAB Без фотографии')\nno_photo_markup.add(no_photo_markup_btn1)\n\nphoto_selector_markup = types.InlineKeyboardMarkup()\nphoto_selector_markup_btn1 = types.InlineKeyboardButton(text='Все', callback_data='all')\nphoto_selector_markup_btn2 = types.InlineKeyboardButton(text='С человеком', callback_data='with human')\nphoto_selector_markup_btn3 = types.InlineKeyboardButton(text='Без человека', callback_data='without human')\nphoto_selector_markup.add(photo_selector_markup_btn1)\nphoto_selector_markup.add(photo_selector_markup_btn2, photo_selector_markup_btn3)\n\n\nobject_adding_keyboard = types.InlineKeyboardMarkup()\nobject_adding_keyboard_btn1 = types.InlineKeyboardButton(text='Добавить', callback_data='add')\nobject_adding_keyboard_btn2 = types.InlineKeyboardButton(text='Пропустить', callback_data='skip')\nobject_adding_keyboard_btn3 = types.InlineKeyboardButton(text='Остановить добавления', callback_data='stop')\nobject_adding_keyboard.add(object_adding_keyboard_btn1, object_adding_keyboard_btn2)\nobject_adding_keyboard.add(object_adding_keyboard_btn3)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/valid_space/adding/views.py b/valid_space/adding/views.py
+--- a/valid_space/adding/views.py	(revision c572ae13005dc4bd66f98a985841c1417c9382a2)
++++ b/valid_space/adding/views.py	(date 1655200416257)
+@@ -22,6 +22,23 @@
+ sex_keyboard.add(sex_keyboard_btn1, sex_keyboard_btn2)
+ sex_keyboard.add(sex_keyboard_btn3)
+ 
++from datetime
++birthday = datetime.strptime("7.12.1902", "%d.%m.%y")
++now  = datetime.now()
++duration = now - then
++duration_in_s = duration.total_seconds()
++
++age_keyboard = types.InlineKeyboardMarkup()
++age_keyboard_btn1 = types.InlineKeyboardButton(text='Младше 18 лет', callback_data='up to 18')
++age_keyboard_btn2 = types.InlineKeyboardButton(text='18-30 лет', callback_data='18-30')
++age_keyboard_btn3 = types.InlineKeyboardButton(text='31-50 лет', callback_data='31-50')
++age_keyboard_btn4 = types.InlineKeyboardButton(text='50-70 лет', callback_data='50-70')
++age_keyboard_btn5 = types.InlineKeyboardButton(text='Старше 70 лет', callback_data='more 70')
++age_keyboard_btn6 = types.InlineKeyboardButton(text='Любой', callback_data='any')
++age_keyboard.add(age_keyboard_btn6, age_keyboard_btn1)
++age_keyboard.add(age_keyboard_btn2, age_keyboard_btn3)
++age_keyboard.add(age_keyboard_btn4, age_keyboard_btn5)
++
+ no_description_markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+ no_description_markup_btn1 = types.KeyboardButton('🚫 Без описания')
+ no_description_markup.add(no_description_markup_btn1)
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"57f1dad6-9f48-4f5a-b88e-7c25ff44804b\" name=\"Changes\" comment=\"\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2ANRnsyMXNFNMQHZAsDA9UTtdCJ\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/database\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"D:\\Проекты\\RatingsTelegramBot\\database\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"D:\\Проекты\\RatingsTelegramBot\\database\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"Z:\\Python\\python.exe\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <module name=\"\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Python.main\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"57f1dad6-9f48-4f5a-b88e-7c25ff44804b\" name=\"Changes\" comment=\"\" />\n      <created>1654848228601</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1654848228601</updated>\n    </task>\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c572ae13005dc4bd66f98a985841c1417c9382a2)
++++ b/.idea/workspace.xml	(date 1655200161204)
+@@ -1,7 +1,11 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="57f1dad6-9f48-4f5a-b88e-7c25ff44804b" name="Changes" comment="" />
++    <list default="true" id="57f1dad6-9f48-4f5a-b88e-7c25ff44804b" name="Changes" comment="">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/valid_space/adding/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/adding/views.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/valid_space/adding/vk/group_adding.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/adding/vk/group_adding.py" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

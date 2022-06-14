@@ -4,6 +4,7 @@ from abc import abstractmethod, ABC
 
 from urllib.request import urlopen as urlopen
 from urllib.parse import urlencode as urlencode
+import types
 
 from valid_space.adding.photo_iteractions import *
 from config import *
@@ -35,6 +36,7 @@ class VkParser(ABC):
         response = json.loads(response)
 
         if 'error' in response.keys():
+
             return 'error'
         else:
             return response['response']
@@ -42,6 +44,7 @@ class VkParser(ABC):
     def add_object(self, vk_object_id, user_id, space_id, description, filters={}):
         fields = 'photo_400_orig' + ', ' + ', '.join(list(filters.keys()))
         get_object_response = self.make_request('users.get', user_ids=vk_object_id, fields=fields)[0]
+        print(get_object_response)
         name = f"{get_object_response['first_name']} {get_object_response['last_name']}"
         object = db.Object(source='vk', source_id=vk_object_id, name=name, creator=user_id,
                            space=space_id, description=description, photos=[])
@@ -55,9 +58,17 @@ class VkParser(ABC):
 
         else:
             for filter_key in filters.keys():
-                if not get_object_response[filter_key] == filters[filter_key]:
-                    status = 'does not satisfy filters'
-                    break
+
+                if filter_key in get_object_response.keys():
+                    filter = filters[filter_key]
+                    if isinstance(filter, types.FunctionType):
+                        if not filter(get_object_response[filter_key]):
+                            status = 'does not satisfy filters'
+                            break
+                    else:
+                        if not (filter == get_object_response[filter_key]):
+                            status = 'does not satisfy filters'
+                            break
             else:
                 try:
                     object.save()

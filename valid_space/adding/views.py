@@ -22,6 +22,17 @@ sex_keyboard_btn3 = types.InlineKeyboardButton(text='Любой', callback_data=
 sex_keyboard.add(sex_keyboard_btn1, sex_keyboard_btn2)
 sex_keyboard.add(sex_keyboard_btn3)
 
+age_keyboard = types.InlineKeyboardMarkup()
+age_keyboard_btn1 = types.InlineKeyboardButton(text='Младше 18 лет', callback_data='up to 18')
+age_keyboard_btn2 = types.InlineKeyboardButton(text='18-30 лет', callback_data='18-30')
+age_keyboard_btn3 = types.InlineKeyboardButton(text='31-50 лет', callback_data='31-50')
+age_keyboard_btn4 = types.InlineKeyboardButton(text='50-70 лет', callback_data='50-70')
+age_keyboard_btn5 = types.InlineKeyboardButton(text='Старше 70 лет', callback_data='more 70')
+age_keyboard_btn6 = types.InlineKeyboardButton(text='Любой', callback_data='any')
+age_keyboard.add(age_keyboard_btn6, age_keyboard_btn1)
+age_keyboard.add(age_keyboard_btn2, age_keyboard_btn3)
+age_keyboard.add(age_keyboard_btn4, age_keyboard_btn5)
+
 no_description_markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 no_description_markup_btn1 = types.KeyboardButton('🚫 Без описания')
 no_description_markup.add(no_description_markup_btn1)
