@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="57f1dad6-9f48-4f5a-b88e-7c25ff44804b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/valid_space/adding/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/adding/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/valid_space/adding/vk/group_adding.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/adding/vk/group_adding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/valid_space/adding/vk/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/adding/vk/parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/valid_space/choices.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/choices.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/valid_space/top.py" beforeDir="false" afterPath="$PROJECT_DIR$/valid_space/top.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +42,7 @@
       <recent name="D:\Проекты\RatingsTelegramBot\database" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.group_adding">
+  <component name="RunManager" selected="Python.main">
     <configuration name="group_adding" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />

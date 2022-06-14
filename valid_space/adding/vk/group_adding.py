@@ -86,24 +86,26 @@ def add_objects(call):
     users_data[user_id]['objects_generator'] = objects_generator
     users_data[user_id]['end'] = False
 
-    send_object(call.from_user.id)
+    search_message = bot.send_message(user_id, f'🔎 Поиск объектов...')
+    send_object(call.from_user.id, search_message)
 
 
-def send_object(user_id):
+def send_object(user_id, search_message):
     try:
         status, object = next(users_data[user_id]['objects_generator'])
     except StopIteration:
-        bot.send_message(user_id, f'Объекты кончились.')
+        bot.edit_message_text(chat_id=search_message.chat.id, message_id=search_message.id, text=f'Объекты кончились.')
         users_data[user_id]['end'] = True
     else:
         print(status)
         if status == 'Objects number limit exceeded':
-            bot.send_message(user_id,
-                             f'Превышен лимит по количеству объектов в одной комнает ({db.objects_number_limit} штук).')
+            bot.edit_message_text(chat_id=search_message.chat.id, message_id=search_message.id,
+                                  text=f'Превышен лимит по количеству объектов в одной комнает ({db.objects_number_limit} штук).')
             users_data[user_id]['end'] = True
         elif status in ['already added', 'deactivated', 'does not satisfy filters', 'error']:
-            send_object(user_id)
+            send_object(user_id, search_message)
         else:
+            bot.delete_message(chat_id=search_message.chat.id, message_id=search_message.id)
             text, photo_list = object_view(object)
             if len(photo_list) > 0:
                 photo_messages = bot.send_media_group(user_id, photo_list)
@@ -126,7 +128,8 @@ def take_object_decision(call):
         db.delete_object_from_space_by_id(object_id)
 
     if (not call.data == 'stop') and (not users_data[call.from_user.id]['end']):
-        send_object(call.from_user.id)
+        search_message = bot.send_message(call.from_user.id, f'🔎 Поиск объектов...')
+        send_object(call.from_user.id, search_message)
 
 
 

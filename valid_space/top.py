@@ -8,5 +8,6 @@ def start(user_id):
     top_list = db.get_objects_top_from_space(space_id)
     top_list = top_list[:10]
     top_view = get_top_view(top_list)
-    bot.send_message(user_id, text=f'Топ 10 объектов комнаты {space.name}:', reply_markup=top_view)
+    db_bot.send_callback_message(user_id, text=f'Топ 10 объектов комнаты {space.name}:',
+                                 reply_markup=top_view, space_id=space_id)
 
